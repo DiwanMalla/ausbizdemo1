@@ -49,7 +49,7 @@ export default function CorporateTraining() {
                 placeholder="Email"
                 className="w-full bg-input border border-muted-foreground focus:ring-2 focus:ring-primary rounded-lg py-3 px-4 text-sm transition duration-300"
               />
-              <Select>
+              <Select className="w-full">
                 <SelectTrigger className="bg-input border border-muted-foreground focus:ring-2 focus:ring-primary rounded-lg py-3 px-4 text-sm transition duration-300">
                   <SelectValue placeholder="Training Format" />
                 </SelectTrigger>
