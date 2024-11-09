@@ -3,13 +3,13 @@ import "./globals.css";
 
 // Using Google Fonts for Roboto and Open Sans
 const roboto = Roboto({
-  weight: ["400", "700", "900"], // Specify the desired weights
+  weight: "400 900", // Specifies weight range you want
   subsets: ["latin"], // Optional: specify the subsets like "latin"
   variable: "--font-roboto", // CSS variable for the font
 });
 
 const openSans = Open_Sans({
-  weight: ["400", "700"], // Specify the desired weights
+  weight: "400 700", // Specifies weight range you want
   subsets: ["latin"], // Optional: specify the subsets like "latin"
   variable: "--font-open-sans", // CSS variable for the font
 });
