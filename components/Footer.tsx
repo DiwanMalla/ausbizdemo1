@@ -58,7 +58,7 @@ export default function Footer() {
             &copy; 2024 AusBiz. All rights reserved.
           </p>
           <div className="flex space-x-4">
-            <Button className="bg-transparent bg-primary text-primary-foreground hover:bg-primary/90">
+            <Button className="bg-transparent text-primary-foreground hover:bg-primary/90">
               Subscribe
             </Button>
           </div>

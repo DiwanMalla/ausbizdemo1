@@ -6,6 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 const projects = [
   {
@@ -69,7 +70,7 @@ export default function ClientProjects() {
                         <li key={i}>{detail}</li>
                       ))}
                     </ul>
-                    <img
+                    <Image
                       src={project.projectImage}
                       alt={`${project.title} Screenshot`}
                       className="mt-4 w-full h-auto object-cover rounded-lg"
@@ -99,7 +100,7 @@ export default function ClientProjects() {
                 key={index}
                 className="w-32 h-32 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center shadow-md"
               >
-                <img
+                <Image
                   src={project.clientLogo}
                   alt={`Logo of ${project.title}`}
                   className="max-w-full max-h-full object-contain"

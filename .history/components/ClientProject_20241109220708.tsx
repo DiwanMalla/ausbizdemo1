@@ -6,6 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 const projects = [
   {
@@ -43,12 +44,12 @@ const projects = [
 export default function ClientProjects() {
   return (
     <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
-      <div className="container mx-auto px-6 md:px-8 flex flex-col justify-center items-center">
+      <div className="container mx-auto px-6 md:px-8 ">
         <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-8 text-center text-foreground">
           Client Projects
         </h2>
-        <div className="flex justify-center">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 justify-items-center w-full">
+        <div className="relative">
+          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 justify-center items-center w-full max-w-7xl">
             {projects.map((project, index) => (
               <Card
                 key={index}
@@ -69,7 +70,7 @@ export default function ClientProjects() {
                         <li key={i}>{detail}</li>
                       ))}
                     </ul>
-                    <img
+                    <Image
                       src={project.projectImage}
                       alt={`${project.title} Screenshot`}
                       className="mt-4 w-full h-auto object-cover rounded-lg"
@@ -88,6 +89,7 @@ export default function ClientProjects() {
         </div>
 
         {/* Client Logos Section */}
+
         <div className="mt-12">
           <h3 className="text-2xl font-semibold text-center text-foreground">
             Trusted by Our Clients
@@ -98,7 +100,7 @@ export default function ClientProjects() {
                 key={index}
                 className="w-32 h-32 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center shadow-md"
               >
-                <img
+                <Image
                   src={project.clientLogo}
                   alt={`Logo of ${project.title}`}
                   className="max-w-full max-h-full object-contain"
