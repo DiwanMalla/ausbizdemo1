@@ -106,8 +106,6 @@ export default function ClientProjects() {
                   src={project.clientLogo}
                   alt={`Logo of ${project.title}`}
                   className="max-w-full max-h-full object-contain"
-                  width={600}
-                  height={400}
                 />
               </div>
             ))}

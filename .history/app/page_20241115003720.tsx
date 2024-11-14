@@ -52,7 +52,7 @@ export default function Home() {
                 Projects
               </Link>
               <Link
-                href="blog"
+                href="#blog"
                 className="transition-colors hover:text-foreground/80 text-foreground/60"
               >
                 Blog
