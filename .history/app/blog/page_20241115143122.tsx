@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { gql, wpApolloClient } from "@/utils/ApolloClient";
 import { Card } from "@/components/ui/card"; // Import Shadcn UI Card
@@ -66,57 +65,31 @@ export default async function Page() {
 
       {/* Display comments if they exist */}
       {post.comments?.nodes?.length > 0 ? (
-        post.comments.nodes.map(
-          (
-            comment: {
-              author: {
-                node: {
-                  name:
-                    | string
-                    | number
-                    | bigint
-                    | boolean
-                    | React.ReactElement<
-                        any,
-                        string | React.JSXElementConstructor<any>
-                      >
-                    | Iterable<React.ReactNode>
-                    | React.ReactPortal
-                    | Promise<React.AwaitedReactNode>
-                    | null
-                    | undefined;
-                };
-              };
-              content: any;
-              date: string | number | Date;
-            },
-            index: React.Key | null | undefined
-          ) => (
-            <Card
-              key={index}
-              className="mb-6 p-6 shadow-lg border border-gray-200 rounded-lg"
-            >
-              {/* Comment Author */}
-              <h3 className="text-lg font-semibold">
-                {comment.author.node.name} says:
-              </h3>
+        post.comments.nodes.map((comment, index) => (
+          <Card
+            key={index}
+            className="mb-6 p-6 shadow-lg border border-gray-200 rounded-lg"
+          >
+            {/* Comment Author */}
+            <h3 className="text-lg font-semibold">
+              {comment.author.node.name} says:
+            </h3>
 
-              {/* Render comment content safely as HTML */}
-              <div
-                className="mt-2 text-sm text-gray-700"
-                dangerouslySetInnerHTML={{ __html: comment.content }}
-              />
+            {/* Render comment content safely as HTML */}
+            <div
+              className="mt-2 text-sm text-gray-700"
+              dangerouslySetInnerHTML={{ __html: comment.content }}
+            />
 
-              {/* Divider */}
-              <div className="my-4 border-t border-gray-300"></div>
+            {/* Divider */}
+            <div className="my-4 border-t border-gray-300"></div>
 
-              {/* Comment Date */}
-              <p className="text-xs text-gray-500">
-                {new Date(comment.date).toLocaleString()}
-              </p>
-            </Card>
-          )
-        )
+            {/* Comment Date */}
+            <p className="text-xs text-gray-500">
+              {new Date(comment.date).toLocaleString()}
+            </p>
+          </Card>
+        ))
       ) : (
         <p className="text-gray-500">No comments available.</p>
       )}

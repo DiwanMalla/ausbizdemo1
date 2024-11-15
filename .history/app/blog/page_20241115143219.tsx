@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { gql, wpApolloClient } from "@/utils/ApolloClient";
 import { Card } from "@/components/ui/card"; // Import Shadcn UI Card

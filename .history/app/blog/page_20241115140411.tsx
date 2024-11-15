@@ -1,0 +1,1 @@
+http://malladipin.great-site.net/graphql
