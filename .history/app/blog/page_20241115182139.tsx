@@ -1,3 +1,4 @@
+"use client";
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
 import { gql } from "@apollo/client";
@@ -64,16 +65,31 @@ const GET_PAGE_CONTENT_WITH_COMMENTS = gql`
   }
 `;
 
-// Server Component using async/await directly
-export default async function BlogPage() {
-  const { data } = await wpApolloClient.query({
-    query: GET_PAGE_CONTENT_WITH_COMMENTS,
-    variables: { slug: "/hello-world" },
-    fetchPolicy: "network-only",
-  });
+// Fetch data server-side
+export async function getServerSideProps() {
+  try {
+    const { data } = await wpApolloClient.query({
+      query: GET_PAGE_CONTENT_WITH_COMMENTS,
+      variables: { slug: "/hello-world" },
+      fetchPolicy: "network-only",
+    });
 
-  const post: Post | null = data?.post;
+    return {
+      props: {
+        post: data.post,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching post data:", error);
+    return { props: { post: null } };
+  }
+}
 
+interface PageProps {
+  post: Post | null;
+}
+
+export default function Page({ post }: PageProps) {
   if (!post) {
     return <p className="text-red-500">Post not found.</p>;
   }
