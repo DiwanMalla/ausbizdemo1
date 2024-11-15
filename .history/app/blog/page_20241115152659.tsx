@@ -1,39 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
 import { gql, wpApolloClient } from "@/utils/ApolloClient";
 import { Card } from "@/components/ui/card"; // Import Shadcn UI Card
 import Image from "next/image";
 import CommentForm from "@/components/CommentForm"; // Import the CommentForm component
-
-// Define types for the data you're working with
-interface Author {
-  node: {
-    name: string;
-  };
-}
-
-interface Comment {
-  content: string;
-  author: Author;
-  date: string;
-}
-
-interface FeaturedImage {
-  node: {
-    sourceUrl: string;
-    altText: string | null;
-  };
-}
-
-interface Post {
-  id: string;
-  title: string;
-  content: string;
-  featuredImage: FeaturedImage | null;
-  comments: {
-    nodes: Comment[];
-  };
-}
 
 // Combined GraphQL query to fetch post title, comments, and content with embedded image
 const GET_PAGE_CONTENT_WITH_COMMENTS = gql`
@@ -98,7 +67,7 @@ export default async function Page() {
 
       {/* Display comments if they exist */}
       {post.comments?.nodes?.length > 0 ? (
-        post.comments.nodes.map((comment: Comment, index: number) => (
+        post.comments.nodes.map((comment, index) => (
           <Card
             key={index}
             className="mb-6 p-6 shadow-lg border border-gray-200 rounded-lg"
