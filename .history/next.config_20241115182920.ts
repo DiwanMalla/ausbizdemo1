@@ -9,11 +9,6 @@ const nextConfig: NextConfig = {
         hostname: "3.106.236.171",
         pathname: "/wp-content/uploads/**",
       },
-      {
-        protocol: "https",
-        hostname: "3.106.236.171",
-        pathname: "/wp-content/uploads/**",
-      },
     ],
   },
 };
