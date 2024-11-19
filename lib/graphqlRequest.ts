@@ -5,7 +5,14 @@ const graphqlRequest = async (query: { query: string }) => {
       "WP_GRAPHQL_URL is not defined in the environment variables"
     );
   }
-  const headers = { "Content-Type": "application/json" };
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+  if (process.env.WORDPRESS_AUTH_REFRESH_TOKEN) {
+    headers[
+      "Authorization"
+    ] = `Bearer ${process.env.WORDPRESS_AUTH_REFRESH_TOKEN}`;
+  }
   const res = await fetch(url, {
     headers,
     method: "POST",
