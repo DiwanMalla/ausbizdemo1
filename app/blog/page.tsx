@@ -1,136 +1,51 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React from "react";
-import { gql } from "@apollo/client";
-import { wpApolloClient } from "@/utils/ApolloClient";
-import { Card } from "@/components/ui/card"; // Shadcn UI Card
-import Image from "next/image";
-import CommentForm from "@/components/CommentForm"; // Comment form component
+import getAllPosts from "@/lib/posts";
+import { BlogPostsResponse } from "@/types/blog";
+import Head from "next/head";
+import Link from "next/link";
 
-// Define types for the data you're working with
-interface Author {
-  node: {
-    name: string;
-  };
-}
-
-interface Comment {
-  content: string;
-  author: Author;
-  date: string;
-}
-
-interface FeaturedImage {
-  node: {
-    sourceUrl: string;
-    altText: string | null;
-  };
-}
-
-interface Post {
-  id: string;
-  title: string;
-  content: string;
-  featuredImage: FeaturedImage | null;
-  comments: {
-    nodes: Comment[];
-  };
-}
-
-// GraphQL query to fetch post content and comments
-const GET_PAGE_CONTENT_WITH_COMMENTS = gql`
-  query GetPageContentWithComments($slug: ID!) {
-    post(id: $slug, idType: SLUG) {
-      id
-      title
-      content
-      featuredImage {
-        node {
-          sourceUrl
-          altText
-        }
-      }
-      comments {
-        nodes {
-          content
-          author {
-            node {
-              name
-            }
-          }
-          date
-        }
-      }
-    }
-  }
-`;
-
-// Server Component using async/await directly
-export default async function BlogPage() {
-  const { data } = await wpApolloClient.query({
-    query: GET_PAGE_CONTENT_WITH_COMMENTS,
-    variables: { slug: "/hello-world" },
-    fetchPolicy: "network-only",
-  });
-
-  const post: Post | null = data?.post;
-
-  if (!post) {
-    return <p className="text-red-500">Post not found.</p>;
-  }
+export default async function BlogHome() {
+  const allPosts: BlogPostsResponse = await getAllPosts();
 
   return (
-    <main className="p-8 max-w-5xl mx-auto">
-      {/* Post title */}
-      <h1 className="text-4xl font-semibold mb-6">{post.title}</h1>
-
-      {/* Post Featured Image */}
-      {post.featuredImage?.node?.sourceUrl && (
-        <div className="mb-6">
-          <Image
-            src={post.featuredImage.node.sourceUrl}
-            alt={post.featuredImage.node.altText || "Post Image"}
-            width={600}
-            height={337}
-            className="w-full max-w-full h-auto rounded-lg shadow-lg"
-            unoptimized
-          />
+    <>
+      <Head>
+        <title>Blog</title>
+      </Head>
+      <div className="container mx-auto px-6 py-10">
+        <div className="text-center mb-10">
+          <h1 className="text-4xl font-bold tracking-tight">Blog</h1>
+          <p className="text-lg text-muted-foreground">
+            Read our latest articles and insights
+          </p>
         </div>
-      )}
-
-      {/* Post content */}
-      {post.content && (
-        <div
-          className="mb-6 text-sm text-gray-700"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
-      )}
-
-      {/* Display comments if they exist */}
-      {post.comments?.nodes?.length > 0 ? (
-        post.comments.nodes.map((comment, index) => (
-          <Card
-            key={index}
-            className="mb-6 p-6 shadow-lg border border-gray-200 rounded-lg"
-          >
-            <h3 className="text-lg font-semibold">
-              {comment.author.node.name} says:
-            </h3>
-            <div
-              className="mt-2 text-sm text-gray-700"
-              dangerouslySetInnerHTML={{ __html: comment.content }}
-            />
-            <div className="my-4 border-t border-gray-300"></div>
-            <p className="text-xs text-gray-500">
-              {new Date(comment.date).toLocaleString()}
-            </p>
-          </Card>
-        ))
-      ) : (
-        <p className="text-gray-500">No comments available.</p>
-      )}
-
-      {/* Comment Form */}
-      <CommentForm postSlug={post.id} />
-    </main>
+        <main>
+          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {allPosts.nodes.map((post) => (
+              <div key={post.slug} className="shadow-lg p-4 rounded-lg">
+                <h2>
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="text-primary hover:underline"
+                  >
+                    {post.title}
+                  </Link>
+                </h2>
+                <p>
+                  {new Date(post.date).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </p>
+                <div
+                  dangerouslySetInnerHTML={{ __html: post.excerpt }}
+                  className="text-muted-foreground"
+                ></div>
+              </div>
+            ))}
+          </section>
+        </main>
+      </div>
+    </>
   );
 }
