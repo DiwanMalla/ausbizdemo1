@@ -1,18 +1,21 @@
 const graphqlRequest = async (query: { query: string }) => {
-  const response = await fetch(process.env.GRAPHQL_API_ENDPOINT as string, {
+  const url = process.env.WP_GRAPHQL_URL;
+  if (!url) {
+    throw new Error(
+      "WP_GRAPHQL_URL is not defined in the environment variables"
+    );
+  }
+  const headers = { "Content-Type": "application/json" };
+  const res = await fetch(url, {
+    headers,
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.GRAPHQL_API_TOKEN}`,
-    },
     body: JSON.stringify(query),
   });
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch data from GraphQL API");
+  if (!res.ok) {
+    throw new Error(`GraphQL request failed: ${res.statusText}`);
   }
 
-  return response.json();
+  return await res.json(); // Parse JSON response
 };
 
 export default graphqlRequest;
