@@ -1,17 +1,22 @@
-// app/api/auth/error/page.tsx
+import { GetServerSideProps } from "next";
 
-// You can access the error directly from the URL query parameter in the server component.
-export default function ErrorPage({
-  searchParams,
-}: {
-  searchParams: { error?: string };
-}) {
-  const error = searchParams?.error || "An unknown error occurred";
+interface ErrorPageProps {
+  error?: string;
+}
 
+export default function ErrorPage({ error }: ErrorPageProps) {
   return (
     <div>
       <h1>Authentication Error</h1>
-      <p>{error}</p>
+      <p>{error || "An unknown error occurred"}</p>
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const error = query.error as string | undefined;
+
+  return {
+    props: { error }, // Passing the error as a prop
+  };
+};
