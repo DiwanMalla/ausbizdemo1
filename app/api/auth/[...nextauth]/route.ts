@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import NextAuth from "next-auth";
 import WordPressProvider from "next-auth/providers/wordpress";
+import { JWT } from "next-auth/jwt";
+import { Session } from "next-auth";
 
-export const handler = NextAuth({
+export const authOptions = {
   providers: [
     WordPressProvider({
       clientId: process.env.WORDPRESS_CLIENT_ID,
@@ -30,27 +33,25 @@ export const handler = NextAuth({
     error: "/auth/error", // Define this route in your Next.js project
   },
   callbacks: {
-    async redirect({ url, baseUrl }) {
-      // Redirect users back to their previous location or base URL
+    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
       return url.startsWith(baseUrl) ? url : baseUrl;
     },
-    async jwt({ token, account }) {
+    async jwt({ token, account }: { token: JWT; account: any }) {
       if (account?.provider === "wordpress") {
         token.accessToken = account.access_token; // Include access token if needed
       }
       return token;
     },
-    async session({ session, token }) {
-      // Attach access token to session if available
+    async session({ session, token }: { session: Session; token: JWT }) {
       if (token?.accessToken) {
         (session as { accessToken?: string }).accessToken =
           token.accessToken as string;
       }
-
       return session;
     },
   },
-});
+};
 
 // Ensure GET and POST methods are exported
+export const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

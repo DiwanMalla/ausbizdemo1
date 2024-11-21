@@ -1,41 +1,57 @@
-// app/api/auth/signin/page.tsx
-"use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import NextAuth from "next-auth";
+import WordPressProvider from "next-auth/providers/wordpress";
+import { JWT } from "next-auth/jwt";
+import { Session } from "next-auth";
 
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+export const authOptions = {
+  providers: [
+    WordPressProvider({
+      clientId: process.env.WORDPRESS_CLIENT_ID,
+      clientSecret: process.env.WORDPRESS_CLIENT_SECRET,
+      token: {
+        url: "https://public-api.wordpress.com/oauth2/token",
+        async request(context) {
+          const { provider, params: parameters, checks, client } = context;
 
-export default function SignInPage() {
-  const router = useRouter();
-  console.log("WordPress Client ID:", process.env.WORDPRESS_CLIENT_ID);
-  console.log("WordPress Client Secret:", process.env.WORDPRESS_CLIENT_SECRET);
+          const tokenset = await client.grant({
+            grant_type: "authorization_code",
+            code: parameters.code,
+            redirect_uri: provider.callbackUrl as string, // Ensure this matches your actual redirect URI
+            code_verifier: checks.code_verifier,
+            client_id: process.env.WORDPRESS_CLIENT_ID,
+            client_secret: process.env.WORDPRESS_CLIENT_SECRET,
+          });
 
-  const handleSignIn = (provider: string) => {
-    // Initiate the sign-in flow with WordPress
-    signIn(provider, {
-      callbackUrl: "http://localhost:3000/blog", // Redirect after successful sign-in
-    });
-  };
+          return { tokens: tokenset };
+        },
+      },
+    }),
+  ],
+  pages: {
+    signIn: "/auth/signin", // Define this route in your Next.js project
+    error: "/auth/error", // Define this route in your Next.js project
+  },
+  callbacks: {
+    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
+      return url.startsWith(baseUrl) ? url : baseUrl;
+    },
+    async jwt({ token, account }: { token: JWT; account: any }) {
+      if (account?.provider === "wordpress") {
+        token.accessToken = account.access_token; // Include access token if needed
+      }
+      return token;
+    },
+    async session({ session, token }: { session: Session; token: JWT }) {
+      if (token?.accessToken) {
+        (session as { accessToken?: string }).accessToken =
+          token.accessToken as string;
+      }
+      return session;
+    },
+  },
+};
 
-  return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>Welcome to the Blog</h1>
-      <p>Please sign in to access the content.</p>
-      <div>
-        <button
-          onClick={() => handleSignIn("wordpress")}
-          style={{
-            padding: "10px 20px",
-            fontSize: "16px",
-            cursor: "pointer",
-            backgroundColor: "#0073e6",
-            color: "#fff",
-            border: "none",
-            borderRadius: "5px",
-          }}
-        >
-          Sign in with WordPress
-        </button>
-      </div>
-    </div>
-  );
-}
+// Ensure GET and POST methods are exported
+export const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };
