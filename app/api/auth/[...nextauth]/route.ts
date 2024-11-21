@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // app/api/auth/[...nextauth]/route.ts
 import NextAuth from "next-auth";
-import { authOptions } from "@/lib/authOptions";
-import { NextApiRequest, NextApiResponse } from "next";
+import { authOptions } from "@/lib/authOptions"; // Assuming you exported your authOptions from a separate file
+import { NextRequest, NextResponse } from "next/server";
 
-// Export the handler for both GET and POST methods
-export const GET = (req: NextApiRequest, res: NextApiResponse) =>
-  NextAuth(req, res, authOptions);
-export const POST = (req: NextApiRequest, res: NextApiResponse) =>
-  NextAuth(req, res, authOptions);
+export const handler = async (req: NextRequest, res: NextResponse) => {
+  return NextAuth(req as any, res as any, authOptions); // Typecasting to bypass type issues
+};
+
+export { handler as GET, handler as POST }; // Export for GET and POST methods
