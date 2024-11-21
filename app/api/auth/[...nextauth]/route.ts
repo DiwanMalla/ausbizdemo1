@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { authOptions } from "@/lib/authOptions";
+// app/api/auth/[...nextauth]/route.ts
 import NextAuth from "next-auth";
+import { authOptions } from "@/lib/authOptions";
 
-// Ensure GET and POST methods are exported
-export const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+// Export the handler as default
+export default NextAuth(authOptions);
