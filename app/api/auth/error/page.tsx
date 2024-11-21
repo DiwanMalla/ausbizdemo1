@@ -3,9 +3,9 @@
 export default function ErrorPage({
   searchParams,
 }: {
-  searchParams: Record<string, string | undefined>;
+  searchParams: URLSearchParams;
 }) {
-  const error = searchParams?.error || "An unknown error occurred";
+  const error = searchParams.get("error") || "An unknown error occurred";
 
   return (
     <div>
