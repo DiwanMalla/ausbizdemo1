@@ -1,24 +1,41 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // app/api/auth/signout/route.ts
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 
 // Define the GET handler for sign-out
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
-  // Retrieve the current session
-  const session = await getServerSession(req, res, authOptions);
+export async function GET(request: Request) {
+  try {
+    // Retrieve the current session
+    const session = await getServerSession(authOptions);
 
-  if (!session) {
-    // If no session exists, respond with an authentication error
-    return res.status(401).json({ message: "Not authenticated" });
+    if (!session) {
+      // If no session exists, respond with an authentication error
+      return NextResponse.json(
+        { message: "Not authenticated" },
+        { status: 401 }
+      );
+    }
+
+    // Clear the session cookie to sign the user out
+    const cookies = request.headers.get("cookie");
+    const headers = new Headers();
+
+    // Clear the session cookie
+    headers.set(
+      "Set-Cookie",
+      `next-auth.session-token=; Path=/; HttpOnly; Max-Age=0; Secure; SameSite=Strict`
+    );
+
+    // Optionally, redirect after sign-out
+    return NextResponse.redirect("/", { headers });
+  } catch (error) {
+    // Log error and return a 500 status code if something goes wrong
+    console.error("Error during sign-out:", error);
+    return NextResponse.json(
+      { message: "Internal Server Error" },
+      { status: 500 }
+    );
   }
-
-  // Clear the session cookie to sign the user out
-  res.setHeader(
-    "Set-Cookie",
-    "next-auth.session-token=; Path=/; HttpOnly; Max-Age=0"
-  );
-
-  // Optionally, redirect after sign-out
-  return res.redirect("/");
 }

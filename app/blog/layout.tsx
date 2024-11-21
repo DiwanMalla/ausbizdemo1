@@ -2,7 +2,7 @@ import Navbar from "@/components/header";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import Link from "next/link"; // Correct import for Link
-import SignOutButton from "../api/signout/page";
+import SignOutButton from "../api/auth/signout/page";
 
 // app/blog/layout.tsx
 
