@@ -10,6 +10,8 @@ const SignOutButton = () => {
         credentials: "include", // Ensure cookies are sent
       });
 
+      console.log("Sign-out response:", response);
+
       if (!response.ok) {
         throw new Error("Failed to sign out");
       }
