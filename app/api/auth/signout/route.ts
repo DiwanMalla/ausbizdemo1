@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-// app/api/auth/signout/route.ts
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 
 export async function GET(request: Request) {
   try {
-    // Retrieve the current session
     const session = await getServerSession(authOptions);
     console.log("Sign-out request received. Session:", session);
 
@@ -17,18 +15,22 @@ export async function GET(request: Request) {
       );
     }
 
-    // Clear the session cookie
+    // Clear the session cookie by setting it to Max-Age=0
     const headers = new Headers();
     headers.set(
       "Set-Cookie",
-      `next-auth.session-token=; Path=/; HttpOnly; Max-Age=0; SameSite=Strict`
+      `next-auth.session-token=; Path=/; HttpOnly; Max-Age=0; SameSite=None; Secure; Domain=${
+        process.env.NEXTAUTH_URL
+          ? new URL(process.env.NEXTAUTH_URL).hostname
+          : ".vercel.app"
+      }`
     );
 
-    // Optionally, redirect after sign-out (WordPress logout URL)
+    console.log("Session cleared. Redirecting...");
+
+    // Redirect after sign-out
     return NextResponse.redirect(
-      new URL(
-        "https://your-wordpress-site.com/wp-login.php?action=logout"
-      ).toString(),
+      new URL("/", process.env.NEXTAUTH_URL).toString(),
       { headers }
     );
   } catch (error) {

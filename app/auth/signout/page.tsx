@@ -15,9 +15,11 @@ const SignOutButton = () => {
       if (!response.ok) {
         throw new Error("Failed to sign out");
       }
-      alert("Signout");
-      // Redirect to the home page (handled server-side or manually)
-      window.location.href = "/blog";
+
+      // Sign-out successful
+      alert("You have been signed out");
+      // Redirect to the home page or any other page
+      window.location.href = "/blog"; // Change to your desired redirect
     } catch (error) {
       console.error("Sign-out error:", error);
       alert("An error occurred during sign-out. Please try again.");
