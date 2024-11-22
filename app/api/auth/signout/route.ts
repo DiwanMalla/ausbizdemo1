@@ -25,7 +25,9 @@ export async function GET(request: Request) {
     // Clear the session cookie
     headers.set(
       "Set-Cookie",
-      `next-auth.session-token=; Path=/; HttpOnly; Max-Age=0; Secure; SameSite=Strict`
+      `next-auth.session-token=; Path=/; HttpOnly; Max-Age=0; Secure; SameSite=Strict; Domain=${
+        process.env.NEXTAUTH_COOKIE_DOMAIN || ""
+      }`
     );
 
     // Optionally, redirect after sign-out

@@ -30,6 +30,7 @@ export const authOptions = {
   pages: {
     signIn: "/auth/signin", // Define this route in your Next.js project
     error: "/auth/error", // Define this route in your Next.js project
+    signOut: "/auth/signout",
   },
   callbacks: {
     async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {

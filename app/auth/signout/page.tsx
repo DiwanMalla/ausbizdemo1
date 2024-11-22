@@ -7,14 +7,15 @@ const SignOutButton = () => {
       // Call the custom API route to handle the sign-out process
       const response = await fetch("/api/auth/signout", {
         method: "GET",
+        credentials: "include", // Ensure cookies are sent
       });
 
       if (!response.ok) {
         throw new Error("Failed to sign out");
       }
-
+      alert("Signout");
       // Redirect to the home page (handled server-side or manually)
-      window.location.href = "/";
+      window.location.href = "/blog";
     } catch (error) {
       console.error("Sign-out error:", error);
       alert("An error occurred during sign-out. Please try again.");
