@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+// app/api/auth/signout/route.ts
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 
 export async function GET(request: Request) {
   try {
+    // Retrieve the current session
     const session = await getServerSession(authOptions);
     console.log("Sign-out request received. Session:", session);
 
@@ -15,29 +17,18 @@ export async function GET(request: Request) {
       );
     }
 
-    // Determine if the environment is production (Vercel) or development (localhost)
-    const isProduction = process.env.NODE_ENV === "production";
-
     // Clear the session cookie
     const headers = new Headers();
-    const cookieOptions = [
-      `next-auth.session-token=; Path=/; HttpOnly; Max-Age=0; SameSite=Strict`,
-    ];
+    headers.set(
+      "Set-Cookie",
+      `next-auth.session-token=; Path=/; HttpOnly; Max-Age=0; SameSite=Strict`
+    );
 
-    if (isProduction) {
-      // In production (Vercel), set the Secure flag
-      cookieOptions.push(
-        `Secure; Domain=${process.env.NEXTAUTH_COOKIE_DOMAIN || ""}`
-      );
-    }
-
-    headers.set("Set-Cookie", cookieOptions.join("; "));
-
-    // Optionally log out the session to confirm it's cleared
-    console.log("Session cleared. Redirecting...");
-
+    // Optionally, redirect after sign-out (WordPress logout URL)
     return NextResponse.redirect(
-      new URL("/", process.env.NEXTAUTH_URL).toString(),
+      new URL(
+        "https://your-wordpress-site.com/wp-login.php?action=logout"
+      ).toString(),
       { headers }
     );
   } catch (error) {
