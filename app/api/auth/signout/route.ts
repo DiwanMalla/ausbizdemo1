@@ -15,11 +15,17 @@ export async function GET(request: Request) {
       );
     }
 
+    // Determine cookie name based on environment
+    const cookieName =
+      process.env.NODE_ENV === "production"
+        ? "__Secure-next-auth.session-token"
+        : "next-auth.session-token";
+
     // Clear the session cookie by setting it to Max-Age=0
     const headers = new Headers();
     headers.set(
       "Set-Cookie",
-      `next-auth.session-token=; Path=/; HttpOnly; Max-Age=0; SameSite=None; Secure; Domain=${
+      `${cookieName}=; Path=/; HttpOnly; Max-Age=0; SameSite=None; Secure; Domain=${
         process.env.NEXTAUTH_URL
           ? new URL(process.env.NEXTAUTH_URL).hostname
           : ".vercel.app"
