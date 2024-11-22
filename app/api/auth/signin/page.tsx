@@ -5,10 +5,6 @@ import { signIn } from "next-auth/react";
 // import { useRouter } from "next/navigation";
 
 export default function SignInPage() {
-  // const router = useRouter();
-  console.log("WordPress Client ID:", process.env.WORDPRESS_CLIENT_ID);
-  console.log("WordPress Client Secret:", process.env.WORDPRESS_CLIENT_SECRET);
-
   const handleSignIn = (provider: string) => {
     // Initiate the sign-in flow with WordPress
     signIn(provider, {

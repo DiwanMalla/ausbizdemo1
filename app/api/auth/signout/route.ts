@@ -29,7 +29,10 @@ export async function GET(request: Request) {
     );
 
     // Optionally, redirect after sign-out
-    return NextResponse.redirect("/", { headers });
+    return NextResponse.redirect(
+      new URL("/", process.env.NEXTAUTH_URL).toString(),
+      { headers }
+    );
   } catch (error) {
     // Log error and return a 500 status code if something goes wrong
     console.error("Error during sign-out:", error);
