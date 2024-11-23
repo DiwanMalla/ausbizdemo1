@@ -21,22 +21,28 @@ export async function GET(request: Request) {
         ? "__Secure-next-auth.session-token"
         : "next-auth.session-token";
 
-    // Clear the session cookie by setting it to Max-Age=0
+    // Calculate the domain from NEXTAUTH_URL or default to Vercel's domain
+    const domain = process.env.NEXTAUTH_URL
+      ? new URL(process.env.NEXTAUTH_URL).hostname
+      : "ausbiz-demo1.vercel.app"; // Explicit fallback for Vercel
+
+    // Clear the session cookie
     const headers = new Headers();
     headers.set(
       "Set-Cookie",
-      `${cookieName}=; Path=/; HttpOnly; Max-Age=0; SameSite=None; Secure; Domain=${
-        process.env.NEXTAUTH_URL
-          ? new URL(process.env.NEXTAUTH_URL).hostname
-          : ".vercel.app"
-      }`
+      `${cookieName}=; Path=/; HttpOnly; Max-Age=0; SameSite=None; Secure; Domain=${domain}`
     );
 
-    console.log("Session cleared. Redirecting...");
+    console.log("Cookie Name:", cookieName);
+    console.log("Computed Domain:", domain);
+    console.log("Set-Cookie Header:", headers.get("Set-Cookie"));
 
     // Redirect after sign-out
     return NextResponse.redirect(
-      new URL("/", process.env.NEXTAUTH_URL).toString(),
+      new URL(
+        "/",
+        process.env.NEXTAUTH_URL || "https://ausbiz-demo1.vercel.app"
+      ).toString(),
       { headers }
     );
   } catch (error) {
