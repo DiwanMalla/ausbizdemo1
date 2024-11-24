@@ -36,9 +36,9 @@ export async function RootLayout({
         <SidebarProvider defaultOpen={defaultOpen}>
           <AppSidebar isOpen={defaultOpen} />
           <main
-            className={`transition-all duration-300 ${
+            className={`transition-all duration-300 min-h-screen overflow-hidden ${
               defaultOpen ? "ml-50" : "ml-1"
-            } flex-1 p-3`}
+            } flex-1 p-2`}
           >
             <SidebarTrigger />
             {children}
