@@ -1,39 +1,10 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { signOut } from "next-auth/react";
 
-const SignOutButton = () => {
-  const handleSignOut = async () => {
-    try {
-      // Call the custom API route to handle the sign-out process
-      const response = await fetch("/api/auth/signout", {
-        method: "GET",
-        credentials: "include", // Ensure cookies are sent
-      });
-
-      console.log("Sign-out response:", response);
-
-      if (!response.ok) {
-        throw new Error("Failed to sign out");
-      }
-
-      // Sign-out successful
-      alert("You have been signed out");
-      // Redirect to the home page or any other page
-      window.location.href = "/blog"; // Change to your desired redirect
-    } catch (error) {
-      console.error("Sign-out error:", error);
-      alert("An error occurred during sign-out. Please try again.");
-    }
+export default function SignOutPage() {
+  const handleSignOut = () => {
+    signOut({ callbackUrl: "http://localhost:3000/" }); // Redirect after sign-out
   };
 
-  return (
-    <Button
-      onClick={handleSignOut}
-      className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-    >
-      Sign out
-    </Button>
-  );
-};
-
-export default SignOutButton;
+  return <button onClick={handleSignOut}>Sign Out</button>;
+}
