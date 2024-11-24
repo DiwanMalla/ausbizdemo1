@@ -1,5 +1,5 @@
 "use client";
-import Navbar from "@/components/header";
+
 import HeroSection from "@/components/HeroSection";
 import BootcampSection from "@/components/Bootcamp";
 import ServicesCarousel from "@/components/Services";
@@ -14,7 +14,6 @@ import Footer from "@/components/Footer";
 export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Navbar />
       <main className="flex-1">
         <HeroSection />
         <BootcampSection />

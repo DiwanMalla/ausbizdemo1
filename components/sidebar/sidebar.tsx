@@ -1,79 +1,69 @@
-import { Book, Briefcase, Calendar, ClipboardList } from "lucide-react";
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
-  Sidebar,
+  Sidebar as ShadcnSidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
+  SidebarFooter,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarRail,
 } from "@/components/ui/sidebar";
-import Link from "next/link";
+import { Home, FileText, Mail } from "lucide-react";
 
 const menuItems = [
-  {
-    title: "Services",
-    url: "#",
-    icon: ClipboardList,
-  },
-  {
-    title: "Projects",
-    url: "#",
-    icon: Briefcase,
-  },
-  {
-    title: "Blog",
-    url: "/blog",
-    icon: Book,
-  },
-  {
-    title: "Events",
-    url: "#",
-    icon: Calendar,
-  },
+  { name: "Home", href: "/", icon: Home },
+  { name: "FHIR Integration", href: "/fhir-integration", icon: FileText },
+  { name: "Blog", href: "/blog", icon: FileText },
+  { name: "Contact Us", href: "/contact", icon: Mail },
 ];
 
-export function AppSidebar({ isOpen }: { isOpen: boolean }) {
+export function Sidebar() {
+  const pathname = usePathname();
+
   return (
-    <Sidebar
-      className={`transition-all duration-300 bg-gray-800 dark:bg-gray-100 text-white dark:text-black ${
-        isOpen ? "w-64" : "w-16"
-      }`}
+    <ShadcnSidebar
+      collapsible="icon"
+      className="fixed left-0 top-0 z-40 h-full w-64 transition-all duration-300"
     >
+      <SidebarHeader className="flex items-center justify-between p-4">
+        <Link href="/" className="flex items-center space-x-2">
+          <span className="text-xl font-bold">AusBiz</span>
+        </Link>
+      </SidebarHeader>
       <SidebarContent>
-        {/* Logo */}
-        <div className="flex items-center justify-center p-4 border-b border-gray-700 dark:border-gray-300">
-          <span className="text-2xl font-bold text-black dark:text-white">
-            <Link href={"/"}>AusBiz</Link>
-          </span>
-        </div>
-        {/* Menu */}
-        <SidebarGroup>
-          <SidebarGroupLabel className="sr-only">Menu</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {menuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link
-                      href={item.url}
-                      className="flex items-center space-x-4 p-2 rounded-md hover:bg-gray-700 dark:hover:bg-gray-200"
-                    >
-                      <item.icon className="w-5 h-5 text-black dark:text-white" />
-                      {isOpen && (
-                        <span className="text-black dark:text-white">
-                          {item.title}
-                        </span>
-                      )}
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        <SidebarMenu>
+          {menuItems.map((item) => (
+            <SidebarMenuItem key={item.name}>
+              <SidebarMenuButton
+                asChild
+                isActive={pathname === item.href}
+                tooltip={item.name}
+              >
+                <Link href={item.href}>
+                  <item.icon className="h-4 w-4" />
+                  <span>{item.name}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
       </SidebarContent>
-    </Sidebar>
+      <SidebarFooter className="p-4 space-y-4">
+        <form className="space-y-2 group-data-[collapsible=icon]:hidden">
+          <h4 className="text-sm font-semibold">Newsletter Signup</h4>
+          <Input type="email" placeholder="Enter your email" />
+          <Button type="submit" className="w-full">
+            Subscribe
+          </Button>
+        </form>
+      </SidebarFooter>
+      <SidebarRail />
+    </ShadcnSidebar>
   );
 }

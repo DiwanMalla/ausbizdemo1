@@ -1,4 +1,3 @@
-import Navbar from "@/components/header";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import Link from "next/link"; // Correct import for Link
@@ -25,7 +24,6 @@ export default async function BlogLayout({
 
   return (
     <div>
-      <Navbar />
       <div className="container mx-auto p-6">
         <div className="flex items-center justify-between mb-6">
           <p className="text-2xl font-semibold ">
