@@ -12,7 +12,7 @@ export function Navbar() {
   return (
     <nav
       className={`flex items-center justify-between p-4 border-b transition-all duration-300 ${
-        state === "expanded" ? "pl-32" : "pl-8"
+        state === "expanded" ? "pl-22" : "pl-4"
       }`}
     >
       <div className="flex items-center space-x-4">
