@@ -18,7 +18,7 @@ export default function HeroSection() {
     <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 flex justify-center items-center bg-background text-foreground">
       <div className="space-y-20 max-w-6xl mx-auto">
         {/* Hero Section */}
-        <section className="text-center py-20">
+        <section className="text-center py-13">
           <h1 className="text-5xl font-extrabold tracking-tight mb-6">
             Transforming Industries Through Innovation
           </h1>
