@@ -37,10 +37,6 @@ export function TestimonialSlider() {
       perView: 1,
       spacing: 15,
     },
-    animation: {
-      duration: 1000, // Transition time in ms
-      easing: "ease-in-out", // Smooth transition easing
-    },
   });
 
   // Auto slide functionality (moves to next slide every 3 seconds)
