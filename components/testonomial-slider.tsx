@@ -73,7 +73,7 @@ export function TestimonialSlider() {
         <Button
           asChild
           variant="outline"
-          className="group border-primary hover:bg-primary hover:text-white"
+          className=" bg-primary text-black group border-primary hover:bg-primary hover:text-black"
         >
           <Link href="/success-stories" className="flex items-center">
             View Success Stories
