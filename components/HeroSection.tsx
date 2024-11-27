@@ -15,56 +15,75 @@ import Link from "next/link";
 
 export default function HeroSection() {
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 flex justify-center items-center bg-background text-foreground">
-      <div className="space-y-20 max-w-6xl mx-auto">
+    <section className="w-full py-12 md:py-24 flex justify-center items-center bg-background text-foreground">
+      <div className="space-y-16 w-full max-w-7xl px-6 sm:px-8 lg:px-12 mx-auto">
         {/* Hero Section */}
-        <section className="text-center py-13">
-          <h1 className="text-5xl font-extrabold tracking-tight mb-6">
-            Transforming Industries Through Innovation
+        <section className="text-center space-y-4">
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
+            Empowering Innovation Across Industries
           </h1>
-          <p className="text-xl mb-8 text-muted-foreground max-w-3xl mx-auto">
-            Unlock the power of tailored solutions for business growth,
-            healthcare advancements, and next-gen corporate training.
+          <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto">
+            From AI-driven automation to healthcare transformation, we deliver
+            customized solutions that drive measurable results and lasting
+            impact for businesses worldwide.
           </p>
-          <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
-            <Link href="/solutions">Explore Solutions</Link>
-          </Button>
+          <div className="flex flex-wrap justify-center gap-4 mt-4">
+            <Button
+              asChild
+              size="lg"
+              className="bg-primary hover:bg-primary/90"
+            >
+              <Link href="/solutions">Explore Solutions</Link>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="border-muted-foreground hover:border-primary"
+            >
+              <Link href="/contact">Contact Us</Link>
+            </Button>
+          </div>
         </section>
 
-        {/* Core Highlights Section */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Highlights Section */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             {
               title: "Corporate Bootcamps",
               content:
-                "Upskill your teams with targeted, results-driven training tailored to your industry.",
+                "Empower your workforce with tailor-made training that aligns with your business goals.",
               link: "/programs",
               linkText: "View Programs",
             },
             {
-              title: "Generative AI Services",
+              title: "Generative AI Solutions",
               content:
-                "Revolutionize your operations with cutting-edge AI solutions.",
+                "Revolutionize your business processes with cutting-edge AI innovation.",
               link: "/ai-services",
               linkText: "Learn More",
             },
             {
-              title: "FHIR Healthcare Solutions",
+              title: "FHIR Healthcare Integration",
               content:
-                "Seamlessly integrate patient data and achieve interoperability with FHIR.",
+                "Streamline patient data and achieve seamless healthcare interoperability.",
               link: "/fhir-solutions",
               linkText: "Explore FHIR",
             },
           ].map((highlight, index) => (
             <Card
               key={index}
-              className="bg-card hover:border-primary transition-colors"
+              className="bg-card hover:shadow-md transition-shadow"
             >
               <CardHeader>
-                <CardTitle>{highlight.title}</CardTitle>
+                <CardTitle className="text-lg font-semibold">
+                  {highlight.title}
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">{highlight.content}</p>
+                <p className="text-sm text-muted-foreground">
+                  {highlight.content}
+                </p>
               </CardContent>
               <CardFooter>
                 <Button asChild variant="ghost" className="group">
@@ -79,41 +98,47 @@ export default function HeroSection() {
         </section>
 
         {/* About Us Section */}
-        <section className="text-center py-16 bg-card rounded-lg border border-border hover:border-primary transition-colors">
-          <h2 className="text-3xl font-bold mb-6">About Us</h2>
-          <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-            We specialize in delivering bespoke solutions for businesses and
-            organizations. Whether it's corporate training, healthcare
-            technology, or AI innovation, we bring expertise and vision to every
-            project.
+        <section className="bg-card rounded-lg shadow-md border p-8 sm:p-12 text-center">
+          <h2 className="text-xl sm:text-2xl font-bold mb-4">About Us</h2>
+          <p className="text-sm sm:text-base text-muted-foreground mb-6 max-w-3xl mx-auto">
+            We bring expertise and vision to deliver tailored business
+            solutions. From transformative corporate training to healthcare
+            technology and AI innovation, we help organizations achieve their
+            strategic goals.
           </p>
-          <Button asChild variant="outline" size="lg" className="group">
+          <Button asChild variant="default" size="lg" className="group">
             <Link href="/about" className="flex items-center">
-              Discover More About Us
+              Learn More About Us
               <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </Button>
         </section>
 
-        {/* Dedicated FHIR Healthcare Section */}
-        <section className="bg-card border border-border rounded-lg p-12 text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Driving Healthcare Forward with FHIR
+        {/* Dedicated FHIR Section */}
+        <section className="bg-card rounded-lg border border-border p-8 sm:p-12 text-center">
+          <h2 className="text-xl sm:text-2xl font-bold mb-4">
+            Transform Healthcare with FHIR
           </h2>
-          <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-            Our FHIR-based solutions help organizations manage patient data
-            efficiently, enabling compliance, interoperability, and better
-            outcomes.
+          <p className="text-sm sm:text-base text-muted-foreground mb-6 max-w-3xl mx-auto">
+            Discover how our FHIR-based solutions help organizations integrate
+            patient data effortlessly and achieve seamless interoperability.
           </p>
-          <Button asChild className="bg-primary hover:bg-primary/90">
-            <Link href="/fhir-solutions">Learn More About FHIR Solutions</Link>
-          </Button>
+          <div className="flex justify-center">
+            <Button
+              asChild
+              className="bg-primary hover:bg-primary/90 px-8 py-3 text-sm "
+            >
+              <Link href="/fhir-solutions">
+                Learn More About FHIR Solutions
+              </Link>
+            </Button>
+          </div>
         </section>
 
         {/* Testimonials Slider */}
         <TestimonialSlider />
 
-        {/* Call to Action Banner */}
+        {/* Call-to-Action Banner */}
         <CTABanner />
       </div>
     </section>
