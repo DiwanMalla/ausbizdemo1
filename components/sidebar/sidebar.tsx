@@ -12,6 +12,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import {
   Home,
@@ -22,6 +23,7 @@ import {
   Mail,
   BookOpen,
 } from "lucide-react";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -51,14 +53,42 @@ const exploreMore = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const [email, setEmail] = useState("");
+  const [isValidEmail, setIsValidEmail] = useState(true);
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    // Simple email validation
+    setIsValidEmail(/\S+@\S+\.\S+/.test(e.target.value));
+  };
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle email subscription logic here
+    alert("Subscribed!");
+  };
 
   return (
     <ShadcnSidebar className="w-60 border-r border-gray-800 bg-gray-900 text-white">
-      {/* Header */}
+      {/* Header with SidebarTrigger */}
       <SidebarHeader className="flex items-center justify-between p-4">
-        <Link href="/" className="flex items-center space-x-2 text-foreground">
-          <span className="text-xl font-bold">AusBiz</span>
-        </Link>
+        <div className="flex gap-6">
+          <Link
+            href="/"
+            aria-label="Go to Home"
+            className="flex items-center space-x-2 text-foreground"
+          >
+            <span className="text-xl font-bold">AusBiz</span>
+          </Link>
+
+          {/* Sidebar Trigger button inside the sidebar */}
+          <SidebarTrigger
+            aria-label="Toggle Sidebar"
+            className="hidden sm:flex"
+          >
+            <Button variant="outline">Toggle Sidebar</Button>
+          </SidebarTrigger>
+        </div>
       </SidebarHeader>
 
       {/* Core Services */}
@@ -70,6 +100,7 @@ export function Sidebar() {
               <SidebarMenuButton asChild isActive={pathname === item.href}>
                 <Link
                   href={item.href}
+                  aria-label={`Navigate to ${item.name}`}
                   className={`flex items-center text-foreground space-x-2 px-4 py-2 text-sm hover:bg-gray-800 rounded-md ${
                     pathname === item.href ? "bg-gray-800" : ""
                   }`}
@@ -90,6 +121,7 @@ export function Sidebar() {
               <SidebarMenuButton asChild isActive={pathname === item.href}>
                 <Link
                   href={item.href}
+                  aria-label={`Navigate to ${item.name}`}
                   className="flex text-foreground items-center space-x-2 px-4 py-2 text-sm hover:bg-gray-800 rounded-md"
                 >
                   <item.icon className="h-5 w-5" />
@@ -113,17 +145,26 @@ export function Sidebar() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubscribe}>
               <Input
                 type="email"
                 placeholder="Enter your email"
                 className="bg-input border-input text-foreground"
+                value={email}
+                onChange={handleEmailChange}
+                aria-label="Email input for subscription"
               />
+              {!isValidEmail && email && (
+                <p className="text-red-500 text-xs">
+                  Please enter a valid email address.
+                </p>
+              )}
             </form>
           </CardContent>
           <CardFooter>
             <Button
               type="submit"
+              disabled={!isValidEmail || !email}
               className="w-full bg-primary hover:bg-primary/90 text-sm sm:text-base"
             >
               Subscribe
