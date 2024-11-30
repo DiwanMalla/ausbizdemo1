@@ -2,9 +2,13 @@
 import WordPressProvider from "next-auth/providers/wordpress";
 import { JWT } from "next-auth/jwt";
 import { Session } from "next-auth";
-
+import GithubProvider from "next-auth/providers/github";
 export const authOptions = {
   providers: [
+    GithubProvider({
+      clientId: process.env.GITHUB_ID!,
+      clientSecret: process.env.GITHUB_SECRET!,
+    }),
     WordPressProvider({
       clientId: process.env.WORDPRESS_CLIENT_ID,
       clientSecret: process.env.WORDPRESS_CLIENT_SECRET,

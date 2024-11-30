@@ -21,7 +21,6 @@ import {
   TrendingUp,
   Mail,
   BookOpen,
-  PanelLeftClose,
 } from "lucide-react";
 import {
   Card,
@@ -57,10 +56,9 @@ export function Sidebar() {
     <ShadcnSidebar className="w-60 border-r border-gray-800 bg-gray-900 text-white">
       {/* Header */}
       <SidebarHeader className="flex items-center justify-between p-4">
-        <Link href="/" className="flex items-center space-x-2">
+        <Link href="/" className="flex items-center space-x-2 text-foreground">
           <span className="text-xl font-bold">AusBiz</span>
         </Link>
-        <SidebarTrigger />
       </SidebarHeader>
 
       {/* Core Services */}
@@ -72,8 +70,8 @@ export function Sidebar() {
               <SidebarMenuButton asChild isActive={pathname === item.href}>
                 <Link
                   href={item.href}
-                  className={`flex items-center space-x-2 px-4 py-2 text-sm hover:bg-gray-800 rounded-md ${
-                    pathname === item.href ? "bg-gray-700" : ""
+                  className={`flex items-center text-foreground space-x-2 px-4 py-2 text-sm hover:bg-gray-800 rounded-md ${
+                    pathname === item.href ? "bg-gray-800" : ""
                   }`}
                 >
                   <item.icon className="h-5 w-5" />
@@ -92,7 +90,7 @@ export function Sidebar() {
               <SidebarMenuButton asChild isActive={pathname === item.href}>
                 <Link
                   href={item.href}
-                  className="flex items-center space-x-2 px-4 py-2 text-sm hover:bg-gray-800 rounded-md"
+                  className="flex text-foreground items-center space-x-2 px-4 py-2 text-sm hover:bg-gray-800 rounded-md"
                 >
                   <item.icon className="h-5 w-5" />
                   <span>{item.name}</span>
@@ -105,9 +103,9 @@ export function Sidebar() {
 
       {/* Footer */}
       <SidebarFooter className="p-4">
-        <Card className="bg-card border-border shadow-md">
-          <CardHeader className="text-center">
-            <CardTitle className="text-lg font-bold text-foreground">
+        <Card className="bg-card border-border shadow-md max-w-sm mx-auto">
+          <CardHeader className="text-center px-4 py-3">
+            <CardTitle className="text-base sm:text-lg font-bold text-foreground">
               Stay Updated
             </CardTitle>
             <CardDescription className="text-sm text-muted-foreground">
@@ -126,7 +124,7 @@ export function Sidebar() {
           <CardFooter>
             <Button
               type="submit"
-              className="w-full bg-primary hover:bg-primary/90"
+              className="w-full bg-primary hover:bg-primary/90 text-sm sm:text-base"
             >
               Subscribe
             </Button>
@@ -134,13 +132,5 @@ export function Sidebar() {
         </Card>
       </SidebarFooter>
     </ShadcnSidebar>
-  );
-}
-
-function SidebarTrigger() {
-  return (
-    <Button variant="ghost" size="icon">
-      <PanelLeftClose className="h-5 w-5" />
-    </Button>
   );
 }

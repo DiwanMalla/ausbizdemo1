@@ -31,6 +31,20 @@ export default function SignInPage() {
         >
           Sign in with WordPress
         </button>
+        <button
+          onClick={() => handleSignIn("github")}
+          style={{
+            padding: "10px 20px",
+            fontSize: "16px",
+            cursor: "pointer",
+            backgroundColor: "#0073e6",
+            color: "#fff",
+            border: "none",
+            borderRadius: "5px",
+          }}
+        >
+          Sign in with Github
+        </button>
       </div>
     </div>
   );
