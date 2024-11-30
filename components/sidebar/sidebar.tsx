@@ -37,7 +37,11 @@ import {
 const coreServices = [
   { name: "Home", href: "/", icon: Home },
   { name: "FHIR Integration", href: "/fhir-integration", icon: FileText },
-  { name: "Corporate Bootcamps", href: "/corporate-bootcamps", icon: Users },
+  {
+    name: "Corporate Bootcamps",
+    href: "https://tech-bootcamp.vercel.app/",
+    icon: Users,
+  },
   { name: "AI Services", href: "/ai-services", icon: Cpu },
   {
     name: "Healthcare Solutions",

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 export function CTABanner() {
   return (
-    <section className=" py-12 px-6 rounded-lg text-center">
+    <section className="py-12 px-6 md:px-12 lg:px-24 rounded-lg text-center bg-primary-foreground text-foreground">
       <h2 className="text-3xl font-semibold mb-4">
         Partner with us to achieve next-level innovation and growth.
       </h2>

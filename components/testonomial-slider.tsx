@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useKeenSlider } from "keen-slider/react"; // Import the hook
 import "keen-slider/keen-slider.min.css"; // Import the Keen Slider CSS
@@ -30,11 +30,34 @@ const testimonials = [
 ];
 
 export function TestimonialSlider() {
+  // State to hold the dynamic `perView` value based on screen size
+  const [slidesPerView, setSlidesPerView] = useState(1);
+
+  // Adjust `perView` based on window width
+  useEffect(() => {
+    const updateSlidesPerView = () => {
+      const width = window.innerWidth;
+      if (width >= 1024) {
+        setSlidesPerView(3); // 3 slides per view on large screens
+      } else if (width >= 768) {
+        setSlidesPerView(2); // 2 slides per view on medium screens
+      } else {
+        setSlidesPerView(1); // 1 slide per view on small screens
+      }
+    };
+
+    // Initial calculation and event listener for resize
+    updateSlidesPerView();
+    window.addEventListener("resize", updateSlidesPerView);
+
+    return () => window.removeEventListener("resize", updateSlidesPerView);
+  }, []);
+
   const [sliderRef, instanceRef] = useKeenSlider({
     loop: true,
     mode: "snap", // Switch to snap mode for smoother transition
     slides: {
-      perView: 1,
+      perView: slidesPerView,
       spacing: 15,
     },
   });
@@ -42,7 +65,9 @@ export function TestimonialSlider() {
   // Auto slide functionality (moves to next slide every 3 seconds)
   useEffect(() => {
     const interval = setInterval(() => {
-      instanceRef.current?.next(); // Move to the next slide
+      if (instanceRef.current) {
+        instanceRef.current.next(); // Move to the next slide
+      }
     }, 3000); // Change every 3 seconds
 
     return () => clearInterval(interval); // Clean up the interval on unmount
@@ -53,7 +78,11 @@ export function TestimonialSlider() {
       <h2 className="text-3xl font-semibold mb-8 text-center">
         What Our Clients Say
       </h2>
-      <div ref={sliderRef} className="keen-slider">
+      <div
+        ref={sliderRef}
+        className="keen-slider w-full" // Make sure the slider container uses full width
+        aria-live="polite"
+      >
         {testimonials.map((testimonial, index) => (
           <div key={index} className="keen-slider__slide">
             <Card className="bg-card border-card hover:border-primary transition-all">
@@ -73,7 +102,7 @@ export function TestimonialSlider() {
         <Button
           asChild
           variant="outline"
-          className=" bg-primary text-black group border-primary hover:bg-primary hover:text-black"
+          className="bg-primary text-black group border-primary hover:bg-primary hover:text-black"
         >
           <Link href="/success-stories" className="flex items-center">
             View Success Stories

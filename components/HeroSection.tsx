@@ -16,10 +16,10 @@ import Link from "next/link";
 export default function HeroSection() {
   return (
     <section className="w-full py-8 sm:py-12 md:py-16 bg-background text-foreground">
-      <div className="space-y-12 w-full px-4 sm:px-2 md:px-8 lg:px-12">
+      <div className="space-y-12 w-full px-4 sm:px-4 md:px-8 lg:px-12">
         {/* Hero Section */}
         <section className="text-center space-y-4">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
             Empowering Innovation Across Industries
           </h1>
           <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-3xl mx-auto">
@@ -31,7 +31,7 @@ export default function HeroSection() {
             <Button
               asChild
               size="lg"
-              className="bg-primary hover:bg-primary/90 w-full sm:w-auto"
+              className="bg-primary hover:bg-primary/90 w-full sm:w-auto py-3 px-6"
             >
               <Link href="/solutions">Explore Solutions</Link>
             </Button>
@@ -39,7 +39,7 @@ export default function HeroSection() {
               asChild
               variant="outline"
               size="lg"
-              className="border-muted-foreground hover:border-primary w-full sm:w-auto"
+              className="border-muted-foreground hover:border-primary w-full sm:w-auto py-3 px-6"
             >
               <Link href="/contact">Contact Us</Link>
             </Button>
@@ -47,13 +47,13 @@ export default function HeroSection() {
         </section>
 
         {/* Highlights Section */}
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-12">
           {[
             {
               title: "Corporate Bootcamps",
               content:
                 "Empower your workforce with tailor-made training that aligns with your business goals.",
-              link: "/programs",
+              link: "https://tech-bootcamp.vercel.app/",
               linkText: "View Programs",
             },
             {
@@ -73,7 +73,7 @@ export default function HeroSection() {
           ].map((highlight, index) => (
             <Card
               key={index}
-              className="bg-card hover:shadow-md transition-shadow"
+              className="bg-card hover:shadow-lg transition-shadow p-4 sm:p-6"
             >
               <CardHeader>
                 <CardTitle className="text-base font-semibold">
