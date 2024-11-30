@@ -22,10 +22,12 @@ export function Navbar() {
     >
       {/* Left Section: Logo and Sidebar Trigger */}
       <div className="flex items-center space-x-4">
-        {state === "collapsed" ? (
-          <SidebarTrigger aria-label="Toggle Sidebar" onClick={toggleSidebar} />
-        ) : null}
-
+        {/* Sidebar trigger always visible on mobile */}
+        <SidebarTrigger
+          aria-label="Toggle Sidebar"
+          onClick={toggleSidebar}
+          className=""
+        />
         <Link
           href="/"
           className="flex items-center space-x-2"
@@ -42,7 +44,7 @@ export function Navbar() {
       </div>
 
       {/* Right Section: Theme Toggle and Auth Buttons for Desktop */}
-      <div className=" items-center space-x-4 hidden sm:flex">
+      <div className="items-center space-x-4 hidden sm:flex">
         <ThemeToggle />
         <Button variant="outline" asChild>
           <Link href="/login" aria-label="Go to Sign In page">
