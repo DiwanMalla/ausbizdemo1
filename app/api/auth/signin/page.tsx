@@ -1,6 +1,7 @@
 // app/api/auth/signin/page.tsx
 "use client";
 
+import Footer from "@/components/Footer";
 import { signIn } from "next-auth/react";
 
 export default function SignInPage() {
@@ -32,7 +33,7 @@ export default function SignInPage() {
       <p style={{ fontSize: "1.2rem", marginBottom: "30px", color: "#6c757d" }}>
         Please sign in to access the content.
       </p>
-      <div style={{ display: "flex", gap: "20px" }}>
+      <div style={{ display: "flex", gap: "20px" }} className="mb-7">
         <button
           onClick={() => handleSignIn("wordpress")}
           style={{
@@ -70,6 +71,7 @@ export default function SignInPage() {
           Sign in with GitHub
         </button>
       </div>
+      <Footer />
     </div>
   );
 }
