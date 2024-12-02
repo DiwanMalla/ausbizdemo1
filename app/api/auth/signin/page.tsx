@@ -2,48 +2,72 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-// import { useRouter } from "next/navigation";
 
 export default function SignInPage() {
   const handleSignIn = (provider: string) => {
-    // Initiate the sign-in flow with WordPress
+    // Initiate the sign-in flow with the specified provider
     signIn(provider, {
       callbackUrl: "http://localhost:3000/blog", // Redirect after successful sign-in
     });
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>Welcome to the Blog</h1>
-      <p>Please sign in to access the content.</p>
-      <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+
+        padding: "20px",
+        textAlign: "center",
+      }}
+    >
+      <h1
+        style={{ fontSize: "2.5rem", marginBottom: "10px", color: "#343a40" }}
+      >
+        Welcome to the Blog
+      </h1>
+      <p style={{ fontSize: "1.2rem", marginBottom: "30px", color: "#6c757d" }}>
+        Please sign in to access the content.
+      </p>
+      <div style={{ display: "flex", gap: "20px" }}>
         <button
           onClick={() => handleSignIn("wordpress")}
           style={{
-            padding: "10px 20px",
+            padding: "12px 24px",
             fontSize: "16px",
             cursor: "pointer",
             backgroundColor: "#0073e6",
             color: "#fff",
             border: "none",
-            borderRadius: "5px",
+            borderRadius: "8px",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            transition: "transform 0.2s",
           }}
+          onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+          onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
         >
           Sign in with WordPress
         </button>
         <button
           onClick={() => handleSignIn("github")}
           style={{
-            padding: "10px 20px",
+            padding: "12px 24px",
             fontSize: "16px",
             cursor: "pointer",
-            backgroundColor: "#0073e6",
+            backgroundColor: "#24292f",
             color: "#fff",
             border: "none",
-            borderRadius: "5px",
+            borderRadius: "8px",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            transition: "transform 0.2s",
           }}
+          onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+          onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
         >
-          Sign in with Github
+          Sign in with GitHub
         </button>
       </div>
     </div>
